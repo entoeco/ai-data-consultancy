@@ -1,0 +1,120 @@
+import type { Metadata } from "next";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Selected projects across technical operations, data analysis, automation, and applied AI.",
+  alternates: { canonical: "https://www.robertfowler.consulting/projects" },
+};
+
+type Project = {
+  title: string;
+  blurb: string;
+  image: string; // path under /public
+  tags: string[];
+  links?: { label: string; href: string }[];
+};
+
+const projects: Project[] = [
+  {
+    title: "Facility Billing & Tiered Pricing Automation",
+    blurb:
+      "A streamlined billing workflow with tiered pricing logic, audit trail, and monthly rollups. Reduced manual handling and improved consistency for mixed client types.",
+    image: "/projects/billing.png",
+    tags: ["Automation", "Excel → Data pipeline", "Ops"],
+    links: [
+      { label: "Case study", href: "#" },
+      { label: "GitHub", href: "#" },
+    ],
+  },
+  {
+    title: "Incident & Training Analytics (Poisson/Regression)",
+    blurb:
+      "Exploratory analysis and modelling to test whether higher training completion correlates with fewer incidents, including plots and interpretation for non-technical stakeholders.",
+    image: "/projects/incident-model.png",
+    tags: ["Data analysis", "Python", "Statistics"],
+    links: [{ label: "GitHub", href: "#" }],
+  },
+  {
+    title: "AI Document / Email Triage Pilot",
+    blurb:
+      "Prototype workflow to classify incoming requests, extract key fields, and route actions. Focused on auditability, data minimisation, and practical guardrails.",
+    image: "/projects/ai-triage.png",
+    tags: ["Applied AI", "NLP", "Governance"],
+    links: [{ label: "Write-up", href: "#" }],
+  },
+];
+
+export default function ProjectsPage() {
+  return (
+    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <header className="border-b bg-white/80 backdrop-blur sticky top-0 z-40">
+        <div className="container py-3 flex items-center justify-between">
+          <a href="/" className="font-semibold text-slate-900">
+            Robert Fowler Consulting
+          </a>
+          <nav className="flex items-center gap-5 text-sm">
+            <a className="hover:text-slate-900" href="/#services">Services</a>
+            <a className="hover:text-slate-900" href="/projects">Projects</a>
+            <a className="hover:text-slate-900" href="/#contact">Contact</a>
+          </nav>
+        </div>
+      </header>
+
+      <main className="container py-12">
+        <h1 className="text-4xl font-extrabold tracking-tight text-slate-900">
+          Projects
+        </h1>
+        <p className="mt-3 text-slate-600 max-w-2xl">
+          A few examples of work across technical operations leadership, workflow automation,
+          data analysis, and applied AI. (I can swap these placeholders for your real projects.)
+        </p>
+
+        <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+          {projects.map((p) => (
+            <Card key={p.title} className="overflow-hidden">
+              <div className="border-b bg-slate-50">
+                {/* Using plain <img> keeps it simple for now */}
+                <img
+                  src={p.image}
+                  alt={p.title}
+                  className="w-full h-44 object-cover"
+                />
+              </div>
+
+              <CardHeader>{p.title}</CardHeader>
+              <CardContent>
+                <p className="text-sm leading-relaxed">{p.blurb}</p>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {p.tags.map((t) => (
+                    <span key={t} className="badge">{t}</span>
+                  ))}
+                </div>
+
+                {p.links?.length ? (
+                  <div className="mt-5 flex flex-wrap gap-2">
+                    {p.links.map((l) => (
+                      <a key={l.label} href={l.href} target="_blank" rel="noreferrer">
+                        <Button variant="outline">{l.label}</Button>
+                      </a>
+                    ))}
+                  </div>
+                ) : null}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </main>
+
+      <footer className="py-10 border-t">
+        <div className="container text-sm text-slate-500 flex items-center justify-between">
+          <p>© {new Date().getFullYear()} Robert Fowler Consulting</p>
+          <a className="hover:text-slate-700" href="/#contact">Get in touch</a>
+        </div>
+      </footer>
+    </div>
+  );
+}
